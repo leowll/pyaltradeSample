@@ -5,6 +5,7 @@ import sma_crossover
 import rsi
 import threelines
 import highlow
+import sma_rsi
 
 # Load the yahoo feed from the CSV file
 feed = yahoofeed.Feed()
@@ -20,7 +21,8 @@ exitSMA = 5
 
 # myStrategy = rsi.RSI(feed, "orcl", rsiPeriod,entrySMA,exitSMA)
 #myStrategy = threelines.threelines(feed,"orcl")
-myStrategy = highlow.highlow(feed, "orcl", 30, 30)
+#myStrategy = highlow.highlow(feed, "orcl", 30, 30)
+myStrategy = sma_rsi.smarsi(feed, "orcl", 5, 5)
 # Attach a returns analyzers to the strategy.
 returnsAnalyzer = returns.Returns()
 myStrategy.attachAnalyzer(returnsAnalyzer)
@@ -30,10 +32,12 @@ plt = plotter.StrategyPlotter(myStrategy, True, True, True)
 # plt.getInstrumentSubplot("orcl").addDataSeries("Entry SMA", myStrategy.getEntrySMA())
 # plt.getInstrumentSubplot("orcl").addDataSeries("Exit SMA", myStrategy.getExitSMA())
 # Include the SMA in the instrument's subplot to get it displayed along with the closing prices.
-# plt.getInstrumentSubplot("orcl").addDataSeries("SMA", myStrategy.getSMA())
-# plt.getInstrumentSubplot("orcl").addDataSeries("RSI", myStrategy.getRSI())
+#plt.getInstrumentSubplot("orcl").addDataSeries("SMA", myStrategy.getSMA(5))
+#plt.getInstrumentSubplot("orcl").addDataSeries("SMA", myStrategy.getSMA(20))
+plt.getInstrumentSubplot("orcl").addDataSeries("SMA", myStrategy.getSMA(30))
+#plt.getInstrumentSubplot("orcl").addDataSeries("RSI", myStrategy.getRSI())
 # Plot the simple returns on each bar.
-# plt.getOrCreateSubplot("rsi").addDataSeries("RSI", myStrategy.getRSI())
+plt.getOrCreateSubplot("rsi").addDataSeries("RSI", myStrategy.getRSI())
 
 
 # plt.getOrCreateSubplot("returns").addDataSeries("Simple returns", returnsAnalyzer.getReturns())
